@@ -21,8 +21,11 @@ def export_resolved_references(**args):
         output_file = args['dest']
     else:
         output_file = config['RESOLVED_FILE']
+    ref_source = None
+    if args['refsource']:
+        ref_source = args['refsource']
     try:
-        resolved = get_resolved()
+        resolved = get_resolved(src=ref_source)
     except Exception as e:
         logger.error('Failed to get resolved references from pipeline database: {0}'.format(str(e)))
         raise PipelineExportFailure('Failed to get resolved references from pipeline database: {0}'.format(str(e)))

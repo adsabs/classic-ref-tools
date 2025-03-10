@@ -27,6 +27,8 @@ if __name__ == '__main__':
                         help='Export citing/cited pairs for resolved references')
     parser.add_argument('-f', '--file', default=False, dest='output_file',
                         help='Override default output file')
+    parser.add_argument('-rs', '--source', default=False, dest='ref_source',
+                        help='Set source for references')
     parser.add_argument('-d', '--date', default=False, dest='date',
                         help='Show files that were processed/updated')
     parser.add_argument('-sd', '--start_date', default=def_start_date, dest='start_date',
@@ -44,7 +46,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     if args.resolved:
-        results = tasks.export_resolved_references(dest=args.output_file)
+        results = tasks.export_resolved_references(dest=args.output_file, refsource=args.ref_source)
     elif args.date:
         # If no start date is provided, the default is to get files from the past month
         results = tasks.show_files(dtype=args.date, start_date=args.start_date, end_date=args.end_date)

@@ -28,8 +28,13 @@ def do_query(sql):
     return rows
 
 def get_resolved(**args):
-
     query = config['SQL_QUERIES']['resolved']
+    # If we have a source for references specified, form the case-insensitive LIKE query on the reference file path
+    # otherwise we grab all references that did not come from arXiv or AUTHOR
+    if args['src']:
+        query += " AND LOWER(processed_history.source_filename) LIKE '%/{0}/%'".format(args['src'].lower())
+    else:
+        query += "  AND LOWER(processed_history.source_filename) NOT LIKE '%/arxiv/%' AND LOWER(processed_history.source_filename) NOT LIKE '%/author/%'"
     results = do_query(query)
     return results
 
