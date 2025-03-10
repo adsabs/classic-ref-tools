@@ -8,7 +8,15 @@ For interoperability with the Classic reference processing workflow, a file TSV 
 ```
 python run.py -r/--resolved [-f/--file <optional alternative output file>]
 ```
-The default location is stored in the configuration.
+The default location is stored in the configuration. The default command (above) saves all resolved references that do NOT have either arXiv or AUTHOR as source. To store arXiv references, do
+```
+python run.py -r/--resolved [-f/--file <optional alternative output file>] --rs arXiv
+```
+and for author-submitted references do
+```
+python run.py -r/--resolved [-f/--file <optional alternative output file>] --rs AUTHOR
+```
+(actually, the filtering on source is done case-insensitively).
 ### Show files: time frame
 When troubleshooting it can be helpful to find files that were processed in a specific time frame; either the time frame in which they were processed or the time frame in which the source files were updated. The pattern for this is as follows
 
