@@ -3,20 +3,34 @@ Tools to help connect modern reference processing architecture to Classic back o
 ## Usage and logic
 This environent uses the typical `run.py` approach. Command line parameters (described below) determine the results generated.
 ### Saving citing/cited pairs of bibcodes
-For interoperability with the Classic reference processing workflow, a file TSV file needs to be generated with the bibcode of the citing publication in the first column and the bibcode of the cited work in the second column (for those cases where the cited work was successfully matched with an existing record). This is done as follows
+For interoperability with the Classic reference processing workflow, a file TSV file needs to be generated with the bibcode of the citing publication in the first column and the bibcode of the cited work in the second column (for those cases where the cited work was successfully matched with an existing record).
 
+To store arXiv references, do
 ```
-python run.py -r/--resolved [-f/--file <optional alternative output file>]
-```
-The default location is stored in the configuration. The default command (above) saves all resolved references that do NOT have either arXiv or AUTHOR as source. To store arXiv references, do
-```
-python run.py -r/--resolved [-f/--file <optional alternative output file>] --rs arXiv
+python run.py -r/--resolved -rs arXiv
 ```
 and for author-submitted references do
 ```
-python run.py -r/--resolved [-f/--file <optional alternative output file>] --rs AUTHOR
+python run.py -r/--resolved -rs AUTHOR
 ```
-(actually, the filtering on source is done case-insensitively).
+(actually, the filtering on source is done case-insensitively). By not specifying the `-rs` option, the equivalent of the file `ads_refs.dat` will be generated. 
+
+The location of where these files are generated is specified in `config.py` (and can be overwritten using a `local_config.py` entry).
+### Compare numbers of references found by pipeline with Classic
+For the cases listed above, the comparison files can be generated as follows.
+For arXiv, do
+```
+python run.py -cmp -rs arxiv
+```
+For author-submitted references, do
+```
+python run.py -cmp -rs author
+```
+For the remainder, do
+```
+python run.py -cmp
+```
+The location of the resulting comparison file is also set through a config variable. The comparison files are named according to the source specified.
 ### Show files: time frame
 When troubleshooting it can be helpful to find files that were processed in a specific time frame; either the time frame in which they were processed or the time frame in which the source files were updated. The pattern for this is as follows
 
