@@ -25,8 +25,6 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-r', '--resolved', action="store_true",
                         help='Export citing/cited pairs for resolved references')
-    parser.add_argument('-f', '--file', default=False, dest='output_file',
-                        help='Override default output file')
     parser.add_argument('-rs', '--source', default=False, dest='ref_source',
                         help='Set source for references')
     parser.add_argument('-d', '--date', default=False, dest='date',
@@ -43,10 +41,12 @@ if __name__ == '__main__':
                         help='Show reference strings containing text')
     parser.add_argument('-c', '--check', default=False, dest='check',
                         help='Show results of checking with Classic')
+    parser.add_argument('-cmp', '--comparison',  action="store_true",
+                        help='Save Classic and pipeline counts to file')
     args = parser.parse_args()
 
     if args.resolved:
-        results = tasks.export_resolved_references(dest=args.output_file, refsource=args.ref_source)
+        results = tasks.export_resolved_references(refsource=args.ref_source)
     elif args.date:
         # If no start date is provided, the default is to get files from the past month
         results = tasks.show_files(dtype=args.date, start_date=args.start_date, end_date=args.end_date)
@@ -63,5 +63,7 @@ if __name__ == '__main__':
     elif args.check:
         results = tasks.compare_classic(args.check)
         print("Show references with check status: {0}".format(args.check))
+    elif args.comparison:
+        results = tasks.compare_pipeline_classic(refsource=args.ref_source)
     else:
         sys.exit("No comprendo")
