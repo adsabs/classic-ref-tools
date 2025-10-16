@@ -15,7 +15,7 @@ LOGGING_LEVEL = 'DEBUG'
 LOG_STDOUT = False
 # SQL queries for pipeline database
 SQL_QUERIES = {
-    'resolved':'SELECT processed_history.bibcode AS citing, resolved_reference.bibcode AS cited FROM processed_history JOIN resolved_reference ON processed_history.id=resolved_reference.history_id WHERE resolved_reference.score=1',
+    'resolved':'SELECT DISTINCT processed_history.bibcode AS citing, resolved_reference.bibcode AS cited FROM processed_history JOIN resolved_reference ON processed_history.id=resolved_reference.history_id WHERE resolved_reference.score=1',
     'resolved_old':'SELECT processed_history.bibcode AS citing, resolved_reference.bibcode AS cited FROM processed_history JOIN resolved_reference ON processed_history.id=resolved_reference.history_id WHERE resolved_reference.score=1',
     'files':"SELECT DISTINCT source_filename, source_modified, date FROM processed_history WHERE {0} BETWEEN '{1}' AND '{2}'",
     'citing':"SELECT source_filename AS source_file, source_modified AS file_modified, date AS process_date  FROM processed_history WHERE processed_history.bibcode='{0}'",
