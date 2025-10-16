@@ -88,10 +88,16 @@ def compare_pipeline_classic(**args):
 
     counts_file = '{0}/pipeline_classic_comparison_{1}.tsv'.format(config['COMPARISON_DIR'], ref_source)
 
-    classic_file = '{0}/{1}_refs.tab'.format(config['CLASSIC_DIR'], ref_source.lower())
+    if ref_source == 'ads':
+        classic_file = '{0}/{1}_refs.dat'.format(config['CLASSIC_DIR'], ref_source.lower())
+    else:
+        classic_file = '{0}/{1}_refs.tab'.format(config['CLASSIC_DIR'], ref_source.lower())
     if not os.path.exists(classic_file):
         sys.exit('Unable to find file with Classic references: {0}'.format(classic_file))
-    pipeline_file= '{0}/pipeline_{1}_refs.tab'.format(config['CLASSIC_DIR'], ref_source.lower())
+    if ref_source == 'ads':
+        pipeline_file= '{0}/pipeline_{1}_refs.dat'.format(config['CLASSIC_DIR'], ref_source.lower())
+    else:
+        pipeline_file= '{0}/pipeline_{1}_refs.tab'.format(config['CLASSIC_DIR'], ref_source.lower())
     if not os.path.exists(pipeline_file):
         sys.exit('Unable to find file with Pipeline references: {0}'.format(pipeline_file))
 
